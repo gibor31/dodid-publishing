@@ -60,9 +60,12 @@ button, input { font: inherit; }
 .section-heading h2 { font-size: clamp(40px, 5vw, 70px); }
 .section-heading > p { margin: 0 0 5px; color: #6e695f; line-height: 1.7; font-size: 14px; }
 .vermilion { color: #d9472b; }
-.filters { display: flex; gap: 6px; padding-bottom: 18px; border-bottom: 1px solid #c7c0b4; }
-.filters button { border: 0; background: transparent; color: #777167; padding: 9px 16px; border-radius: 99px; cursor: pointer; font-size: 13px; }
-.filters button.active { background: #191915; color: #fffaf1; }
+.filter-panel { margin-bottom: 34px; border-top: 1px solid #c7c0b4; border-bottom: 1px solid #c7c0b4; }
+.filter-row { min-height: 60px; display: flex; align-items: center; gap: 6px; }
+.filter-row + .filter-row { border-top: 1px solid #d8d1c5; }
+.filter-label { width: 68px; flex: 0 0 auto; color: #8a8479; font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+.filter-row button { border: 0; background: transparent; color: #777167; padding: 9px 16px; border-radius: 99px; cursor: pointer; font-size: 13px; }
+.filter-row button.active { background: #191915; color: #fffaf1; }
 .catalog-link { margin-left: auto; display: inline-flex; align-items: center; gap: 7px; color: #5d594f; font-size: 11px; }
 .catalog-link svg { width: 13px; }
 .sample-notice { color: #8b857a; font-size: 11px; margin: 14px 0 34px; }
@@ -81,13 +84,17 @@ button, input { font: inherit; }
 .cover-wrap:hover .quick-add, .quick-add:focus { transform: translateY(0); }
 .book-info { padding-top: 20px; }
 .book-label-line { display: flex; justify-content: space-between; align-items: center; }
-.book-label-line span { color: #d9472b; font-size: 10px; font-weight: 700; letter-spacing: .1em; }
+.book-badges { display: flex; gap: 6px; }
+.book-badges span { padding: 5px 8px; background: #d9472b; color: #fffaf1; font-size: 9px; font-weight: 700; letter-spacing: .08em; }
+.book-badges .format-badge { background: #1d382f; }
 .book-label-line time { color: #918a7e; font-size: 9px; letter-spacing: .04em; }
 .book-info h3 { font-family: Georgia, 'Batang', serif; font-size: 22px; margin: 8px 0; letter-spacing: -.045em; }
 .book-info p { color: #777167; font-size: 12px; margin: 0 0 18px; }
 .book-meta-line { display: flex; justify-content: space-between; border-top: 1px solid #d0c9bd; padding-top: 14px; }
 .book-info small { color: #6e695f; }
 .book-info strong { font-size: 14px; }
+.book-grid.is-empty { display: block; }
+.empty-books { padding: 85px 20px; border-bottom: 1px solid #d0c9bd; color: #777167; text-align: center; font-size: 13px; }
 .all-books-callout { margin-top: 80px; padding: 32px 0; border-top: 1px solid #c8c0b4; border-bottom: 1px solid #c8c0b4; display: flex; align-items: center; justify-content: space-between; }
 .all-books-callout p { margin: 0; color: #5f5a50; font: 400 19px/1.4 Georgia, 'Batang', serif; }
 .all-books-callout a { display: inline-flex; align-items: center; gap: 24px; padding-bottom: 8px; border-bottom: 1px solid #25241f; font-size: 12px; }
@@ -157,7 +164,7 @@ footer { background: #191915; color: #eae4d8; padding: 70px 5vw 28px; display: g
   .hero { min-height: calc(100svh - 104px); } .hero-copy { width: calc(100% - 40px); } .hero h1 { font-size: 53px; }
   .hero-description { font-size: 13px; } .desktop-break { display: none; }
   .book-section { padding: 90px 20px; } .section-heading { display: block; } .section-heading > p { margin-top: 24px; }
-  .filters { overflow-x: auto; } .catalog-link { display: none; } .book-grid { grid-template-columns: 1fr; gap: 55px; } .cover-wrap { min-height: 430px; } .quick-add { transform: none; }
+  .filter-panel { overflow: hidden; } .filter-row { overflow-x: auto; padding: 10px 0; } .filter-label { width: 58px; position: sticky; left: 0; z-index: 2; background: #f4f0e8; } .filter-row button { white-space: nowrap; } .catalog-link { display: none; } .book-grid { grid-template-columns: 1fr; gap: 55px; } .cover-wrap { min-height: 430px; } .quick-add { transform: none; }
   .all-books-callout { margin-top: 60px; display: block; } .all-books-callout a { margin-top: 20px; }
   .story-section { padding: 85px 20px; grid-template-columns: 1fr; } .story-copy h2 { font-size: 40px; } .principles { grid-column: auto; }
   .letter-section { padding: 90px 20px; } .letter-section form { display: grid; gap: 10px; border: 0; }

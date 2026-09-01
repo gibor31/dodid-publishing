@@ -10,7 +10,8 @@ type Book = {
   subtitle: string;
   author: string;
   price: number;
-  tag: '종이책' | 'POD' | 'eBook';
+  subject: '청교도' | '성경' | '신학';
+  format: '종이책' | 'POD' | '전자책';
   date: string;
   image: string;
   url: string;
@@ -23,7 +24,8 @@ const books: Book[] = [
     subtitle: '20세기 마지막 청교도 아더 핑크 시리즈 4',
     author: '아더 핑크 · 윤득남 옮김',
     price: 10800,
-    tag: '종이책',
+    subject: '성경',
+    format: '종이책',
     date: '2023.10.01',
     image: '/covers/gospels.jpg',
     url: 'https://product.kyobobook.co.kr/detail/S000209151576',
@@ -34,7 +36,8 @@ const books: Book[] = [
     subtitle: '하나님의 성품을 깊이 살피는 신학 고전',
     author: '아더 핑크',
     price: 11000,
-    tag: 'POD',
+    subject: '신학',
+    format: 'POD',
     date: '2025.10.25',
     image: '/covers/attributes.jpg',
     url: 'https://product.kyobobook.co.kr/detail/S000217211434',
@@ -45,7 +48,8 @@ const books: Book[] = [
     subtitle: '존 번연이 전하는 천국과 지옥에 관한 묵상',
     author: '존 번연',
     price: 8000,
-    tag: 'POD',
+    subject: '청교도',
+    format: 'POD',
     date: '2026.02.05',
     image: '/covers/heaven-hell.jpg',
     url: 'https://product.kyobobook.co.kr/detail/S000218367900',
@@ -56,7 +60,8 @@ const books: Book[] = [
     subtitle: '말씀의 깊이를 따라가는 고전 설교 모음',
     author: 'J. C. 필폿',
     price: 13000,
-    tag: 'POD',
+    subject: '청교도',
+    format: 'POD',
     date: '2025.06.20',
     image: '/covers/philpot-sermons.jpg',
     url: 'https://product.kyobobook.co.kr/detail/S000216558498',
@@ -67,7 +72,8 @@ const books: Book[] = [
     subtitle: '베드로서신과 유다서를 읽는 종교개혁자의 시선',
     author: '마틴 루터',
     price: 9000,
-    tag: 'eBook',
+    subject: '성경',
+    format: '전자책',
     date: '2024.11.01',
     image: '/covers/luther-epistles.jpg',
     url: 'https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000008885275',
@@ -78,7 +84,8 @@ const books: Book[] = [
     subtitle: '선택의 교리를 차분하고 명료하게 풀어낸 책',
     author: '아더 핑크',
     price: 3600,
-    tag: 'eBook',
+    subject: '신학',
+    format: '전자책',
     date: '2021.12.29',
     image: '/covers/divine-choice.jpg',
     url: 'https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000003599604',
@@ -89,8 +96,12 @@ const won = new Intl.NumberFormat('ko-KR');
 const kyoboSearch = 'https://search.kyobobook.co.kr/search?keyword=%EB%8F%84%EB%94%94%EB%93%9C';
 
 export default function Home() {
-  const [category, setCategory] = useState('전체');
-  const visibleBooks = category === '전체' ? books : books.filter((book) => book.tag === category);
+  const [subject, setSubject] = useState('전체 주제');
+  const [format, setFormat] = useState('전체 형식');
+  const visibleBooks = books.filter((book) =>
+    (subject === '전체 주제' || book.subject === subject) &&
+    (format === '전체 형식' || book.format === format),
+  );
 
   return (
     <main>
@@ -124,7 +135,7 @@ export default function Home() {
           <p className="eyebrow">BOOKS FOR A DEEPER DAY</p>
           <h1>오래 남는 문장을<br />만듭니다.</h1>
           <p className="hero-description">
-            도디드는 오래 읽힐 고전과 깊이 있는 신앙 도서를 펴냅니다.<br className="desktop-break" />
+            도디드는 청교도 고전과 성경·신학 도서를 펴냅니다.<br className="desktop-break" />
             실제 출간 도서를 살펴보고 교보문고에서 바로 만나보세요.
           </p>
           <a className="hero-link" href="#books">도디드의 책 보기 <ArrowDown /></a>
@@ -137,14 +148,23 @@ export default function Home() {
           <p>교보문고에서 판매 중인 도디드의 대표 도서입니다.<br />상품 정보와 가격은 교보문고 기준입니다.</p>
         </div>
 
-        <div className="filters" aria-label="도서 분류">
-          {['전체', '종이책', 'POD', 'eBook'].map((item) => (
-            <button key={item} className={category === item ? 'active' : ''} onClick={() => setCategory(item)}>{item}</button>
-          ))}
-          <a className="catalog-link" href={kyoboSearch} target="_blank" rel="noreferrer">전체 도서 검색 <ArrowUpRight /></a>
+        <div className="filter-panel">
+          <div className="filter-row" aria-label="주제별 도서 분류">
+            <span className="filter-label">주제</span>
+            {['전체 주제', '청교도', '성경', '신학'].map((item) => (
+              <button key={item} className={subject === item ? 'active' : ''} onClick={() => setSubject(item)}>{item}</button>
+            ))}
+          </div>
+          <div className="filter-row" aria-label="책 형식별 분류">
+            <span className="filter-label">책 형식</span>
+            {['전체 형식', '종이책', 'POD', '전자책'].map((item) => (
+              <button key={item} className={format === item ? 'active' : ''} onClick={() => setFormat(item)}>{item}</button>
+            ))}
+            <a className="catalog-link" href={kyoboSearch} target="_blank" rel="noreferrer">전체 도서 검색 <ArrowUpRight /></a>
+          </div>
         </div>
 
-        <div className="book-grid real-books">
+        <div className={`book-grid real-books${visibleBooks.length === 0 ? ' is-empty' : ''}`}>
           {visibleBooks.map((book) => (
             <article className="book-card" key={book.id}>
               <div className="cover-wrap">
@@ -154,13 +174,17 @@ export default function Home() {
                 </a>
               </div>
               <div className="book-info">
-                <div className="book-label-line"><span>{book.tag}</span><time>{book.date}</time></div>
+                <div className="book-label-line">
+                  <div className="book-badges"><span>{book.subject}</span><span className="format-badge">{book.format}</span></div>
+                  <time>{book.date}</time>
+                </div>
                 <h3>{book.title}</h3>
                 <p>{book.subtitle}</p>
                 <div className="book-meta-line"><small>{book.author}</small><strong>{won.format(book.price)}원</strong></div>
               </div>
             </article>
           ))}
+          {visibleBooks.length === 0 && <p className="empty-books">선택한 조건에 맞는 도서가 없습니다. 다른 주제나 책 형식을 선택해 주세요.</p>}
         </div>
 
         <div className="all-books-callout">
@@ -174,11 +198,11 @@ export default function Home() {
         <div className="story-copy">
           <p className="eyebrow">WHY DODID</p>
           <h2>시간을 견디는 책의<br />가치를 믿습니다.</h2>
-          <p>도디드는 고전 문학과 신앙의 깊이를 오늘의 독자에게 전합니다. 오래전에 쓰였지만 지금도 유효한 질문, 삶과 믿음을 단단하게 하는 문장을 정성껏 책으로 엮습니다.</p>
+          <p>도디드는 청교도 고전과 성경·신학의 깊이를 오늘의 독자에게 전합니다. 오래전에 쓰였지만 지금도 믿음과 삶을 단단하게 하는 말씀과 신앙의 유산을 정성껏 책으로 엮습니다.</p>
           <a href="#letter">도디드 소식 받기 <ArrowRight /></a>
         </div>
         <div className="principles">
-          {[['01', '오래 읽히는 고전'], ['02', '깊이 있는 신앙과 사유'], ['03', '독자와 만나는 새로운 방식']].map(([number, text]) => (
+          {[['01', '청교도의 신앙 유산'], ['02', '성경을 깊이 읽는 책'], ['03', '바른 신학과 설교']].map(([number, text]) => (
             <div key={number}><span>{number}</span><strong>{text}</strong><Check /></div>
           ))}
         </div>
@@ -197,7 +221,7 @@ export default function Home() {
 
       <footer>
         <div className="footer-wordmark">DODID</div>
-        <div className="footer-info"><strong>도서출판 도디드</strong><p>교보문고에서 도디드의 종이책과 전자책을 구매하실 수 있습니다.</p><span>상품 주문·결제·배송은 교보문고에서 진행됩니다.</span></div>
+        <div className="footer-info"><strong>도서출판 도디드</strong><p>교보문고에서 청교도·성경·신학 분야의 종이책, POD, 전자책을 구매하실 수 있습니다.</p><span>상품 주문·결제·배송은 교보문고에서 진행됩니다.</span></div>
         <div className="footer-links"><a href="#books">도서목록</a><a href="#story">출판사 소개</a><a href={kyoboSearch} target="_blank" rel="noreferrer">교보문고</a></div>
         <p className="copyright">© 2026 DODID PUBLISHING. ALL RIGHTS RESERVED.</p>
       </footer>
